@@ -8,12 +8,12 @@ def usage():
     print('python combine.py path/to/dataset path/to/metadata path/to/output')
 
 
-# file_paths to the data, metadata and output
-file_path_data = sys.argv[1]
-file_path_metadata = sys.argv[2]
-file_path_output = sys.argv[3]
-
-if not (file_path_data and file_path_metadata and file_path_output):
+try:
+    # file_paths to the data, metadata and output
+    file_path_data = sys.argv[1]
+    file_path_metadata = sys.argv[2]
+    file_path_output = sys.argv[3]
+except IndexError:
     usage()
     exit(1)
 
