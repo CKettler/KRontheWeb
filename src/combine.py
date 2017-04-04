@@ -5,7 +5,7 @@ import data_preparation as prep
 
 def usage():
     print('Not all parameters specified. Correct usage:')
-    print('python main.py path/to/dataset path/to/metadata path/to/output')
+    print('python combine.py path/to/dataset path/to/metadata path/to/output')
 
 
 # file_paths to the data, metadata and output
