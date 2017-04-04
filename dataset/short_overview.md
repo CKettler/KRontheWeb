@@ -1,0 +1,26 @@
+# Overview short and english version:
+
+- Country of origin of people
+- Age of people
+- Education level
+- Marital status
+- Births
+- Deaths
+- How long do people live in this place
+- Income
+- Neighborhood ratings 
+- % (how much do people like the neighborhood and their neighbors)
+- Schools and whether people go to schools
+- How the neighborhood looks like
+- Available cultural and sports services
+- Safety and safetyfeeling
+- Traffic and nuisance by traffic
+- Public transport availability
+- Welbeing
+- Smokers/alcoholists/depressions/people that aren't active enough
+- Care houses
+- Obesity
+- Drugsuse 
+- % (based on people aged 14-16)
+- Housing 
+- % (how many available/density/hire/buy/size/value/average housingprice/houseowners/maintenance)
