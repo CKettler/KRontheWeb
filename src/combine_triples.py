@@ -34,7 +34,6 @@ print("[files transformed to dataframes]")
 # combine these dataframes in one dataframe and save this to a csv
 df_data1 = prep.combine_dataframes(df_data, df_metadata, key=1)[['variabele', 'gebiedcode15', 'waarde','label', 'definitie']]
 df_all_data = prep.combine_dataframes(df_data1, df_metadata_2, key=2)
-print(df_all_data)
 print("[saving data to csv...]")
 df_all_data.to_csv(file_path_output)
 print("[saved!]")
