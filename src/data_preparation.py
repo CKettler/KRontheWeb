@@ -10,13 +10,16 @@ def csv_to_dataframe(file_path, key):
     return dataframe
 
 
-def combine_dataframes(df_data, df_metadata):
-    df_all = pd.merge(df_data, df_metadata, on='variabele', how='inner')
+def combine_dataframes(df_data, df_metadata, key):
+    if key == 1:
+        df_all = pd.merge(df_data, df_metadata, on='variabele', how='inner')
+    else:
+        df_all = pd.merge(df_data, df_metadata, on='gebiedcode15', how='inner')
     return df_all
 
 
-def areas_to_city(col):
-    return "Amsterdam"
+# def areas_to_city(col):
+    # return "Amsterdam"
 
 
 def dataset_to_triples(file_path, year):
