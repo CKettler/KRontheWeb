@@ -27,7 +27,7 @@ df_metadata = prep.csv_to_dataframe(
     file_path=file_path_metadata, key='metadata')
 df_metadata_2 = prep.csv_to_dataframe(
     file_path=file_path_metadata_2, key='metadata2')
-df_metadata_2 = df_metadata_2.loc[df_metadata_2['jaar'] == 2017][['gebiedcode15', 'gebiednaam']]
+df_metadata_2 = df_metadata_2.loc[df_metadata_2['jaar'] == 2017][['gebiedcode15', 'gebiednaam', 'sdnaam']]
 
 print("[files transformed to dataframes]")
 
