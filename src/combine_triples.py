@@ -25,7 +25,7 @@ df_data = prep.csv_to_dataframe(
 df_metadata = prep.csv_to_dataframe(
     file_path=file_path_metadata, key='metadata')
 df_metadata_2 = prep.csv_to_dataframe(
-    file_path=file_path_metadata_2, key='metadata2')
+    file_path=file_path_metadata_2, key='metadata2')[['gebiedcode15', 'gebiednaam']]
 
 print("[files transformed to dataframes]")
 
