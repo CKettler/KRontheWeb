@@ -18,8 +18,10 @@ SDNAAM_IDX = 6
 data = 'http://data.krw.d2s.labs.vu.nl/group1/resource/'
 DATA = Namespace(data)
 # DBPEDIA namespace
-dbpedia = 'http://dbpedia.org/resource/'
-DBPEDIA = Namespace(dbpedia)
+dbr = 'http://dbpedia.org/resource/'
+DBR = Namespace(dbr)
+dbo = 'http://dbpedia.org/ontology/'
+DBO = Namespace(dbo)
 # A namespace for our vocabulary items (schema information,
 # RDFS, OWL classes and properties etc.)
 vocab = 'http://data.krw.d2s.labs.vu.nl/group1/vocab/'
@@ -32,12 +34,11 @@ graph_uri = URIRef('http://data.krw.d2s.labs.vu.nl/group1/resource/example')
 dataset = Dataset()
 dataset.bind('g01data', DATA)
 dataset.bind('g01vocab', VOCAB)
+dataset.bind('dbr', DBR)
+dataset.bind('dbo', DBO)
 
 # We then get a new graph object with our URI from the dataset.
 graph = dataset.graph(graph_uri)
-
-city_type = URIRef(to_iri(data + "City"))
-area_type = URIRef(to_iri(data + "Area"))
 
 visited = []
 with open(dataset_path, "r") as csvfile:
@@ -79,10 +80,10 @@ with open(dataset_path, "r") as csvfile:
             graph.add((area, vb_entity, value))
 
             if gb_code == 'STAD':
-                graph.add((area, RDF.type, city_type))
-                graph.add((area, OWL.sameAs, DBPEDIA.Amsterdam))
+                graph.add((area, RDF.type, DBO.City))
+                graph.add((area, OWL.sameAs, DBR.Amsterdam))
             else:
-                graph.add((area, RDF.type, area_type))
+                graph.add((area, RDF.type, DBO.Area))
                 if gb_code + " " + gb_name == sd_name:
                     subarea_val = Literal("Amsterdam", datatype=XSD['string'])
                 else:
