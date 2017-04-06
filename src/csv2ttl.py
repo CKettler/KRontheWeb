@@ -14,18 +14,15 @@ DEFINITIE_IDX = 4
 GEBIEDNAAM_IDX = 5
 SDNAAM_IDX = 6
 
-# A namespace for our resources
+
 data = 'http://data.krw.d2s.labs.vu.nl/group1/resource/'
 DATA = Namespace(data)
+
 # DBPEDIA namespace
 dbr = 'http://dbpedia.org/resource/'
 DBR = Namespace(dbr)
 dbo = 'http://dbpedia.org/ontology/'
 DBO = Namespace(dbo)
-# A namespace for our vocabulary items (schema information,
-# RDFS, OWL classes and properties etc.)
-vocab = 'http://data.krw.d2s.labs.vu.nl/group1/vocab/'
-VOCAB = Namespace(vocab)
 
 # The URI for our graph
 graph_uri = URIRef('http://data.krw.d2s.labs.vu.nl/group1/resource/example')
@@ -33,7 +30,6 @@ graph_uri = URIRef('http://data.krw.d2s.labs.vu.nl/group1/resource/example')
 # We initialize a dataset, and bind our namespaces
 dataset = Dataset()
 dataset.bind('g01data', DATA)
-dataset.bind('g01vocab', VOCAB)
 dataset.bind('dbr', DBR)
 dataset.bind('dbo', DBO)
 
@@ -92,7 +88,7 @@ with open(dataset_path, "r") as csvfile:
                         subarea_val = Literal(literal, datatype=XSD['string'])
                     except IndexError:
                         continue
-                graph.add((area, VOCAB['areaOf'], subarea_val))
+                graph.add((area, DBO.isPartOf, subarea_val))
 
         except ValueError:
             pass
