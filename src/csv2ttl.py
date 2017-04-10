@@ -25,7 +25,7 @@ dbo = 'http://dbpedia.org/ontology/'
 DBO = Namespace(dbo)
 
 # The URI for our graph
-graph_uri = URIRef('http://data.krw.d2s.labs.vu.nl/group1/resource/example')
+graph_uri = URIRef('http://data.krw.d2s.labs.vu.nl/group1/resource/graph')
 
 # We initialize a dataset, and bind our namespaces
 dataset = Dataset()
@@ -70,7 +70,7 @@ with open(dataset_path, "r") as csvfile:
             sd_name = row[SDNAAM_IDX]
 
             area = URIRef(to_iri(data + gb_name))
-            value = Literal(float(row[WAARDE_IDX]), datatype=XSD['float'])
+            value = Literal(float(row[WAARDE_IDX]), datatype=XSD['decimal'])
 
             # All set... we are now going to add the triples to our graph
             graph.add((area, vb_entity, value))
