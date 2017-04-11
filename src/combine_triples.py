@@ -23,6 +23,7 @@ except IndexError:
 df_data = prep.csv_to_dataframe(
     file_path=file_path_data, key='data')
 df_data = prep.last_value_variable(df_data)
+df_data.to_csv('../dataset/processed_data.csv')
 df_metadata = prep.csv_to_dataframe(
     file_path=file_path_metadata, key='metadata')
 df_metadata_2 = prep.csv_to_dataframe(
