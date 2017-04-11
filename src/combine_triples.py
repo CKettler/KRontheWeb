@@ -48,9 +48,6 @@ combined_df = join_dataframes(
 combined_df = join_dataframes(combined_df, df_locations, 'gebiedcode15')
 print(combined_df.loc[120:,:])
 
-combined_df = combined_df.drop_duplicates(subset=['variabele', 'gebiedcode15', 'waarde', 'label', 'definitie'])
-combined_df.to_csv('../dataset/duplicate_check.csv')
-
 print("[saving data to csv...]")
 combined_df.to_csv(file_path_output)
 print("[saved!]")
