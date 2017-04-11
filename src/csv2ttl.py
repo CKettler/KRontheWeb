@@ -4,7 +4,9 @@ import sys
 from iribaker import to_iri
 from rdflib import Dataset, URIRef, Literal, Namespace, RDF, RDFS, OWL, XSD
 
-dataset_path = sys.argv[1]
+# dataset_path = sys.argv[1]
+
+dataset_path = '../dataset/bbga_data_out.csv'
 
 VARIABELE_IDX = 0
 GEBIEDCODE_IDX = 1
@@ -44,6 +46,7 @@ with open(dataset_path, "r") as csvfile:
     # Let's pretend we know exactly what the 'schema' of our CSV file is
     count = 0
     for row in csv_contents:
+        print(row)
         # Progress
         count += 1
         if count % 10000 == 0:
@@ -53,8 +56,8 @@ with open(dataset_path, "r") as csvfile:
         vb_entity = URIRef(to_iri(data + variable))
         if variable not in visited:
             visited.append(variable)
-            def_literal = Literal(row[DEFINITIE_IDX], datatype=XSD['string'], lang='nl')
-            label_literal = Literal(row[LABEL_IDX], datatype=XSD['string'], lang='nl')
+            def_literal = Literal(row[DEFINITIE_IDX], lang='nl')
+            label_literal = Literal(row[LABEL_IDX], lang='nl')
             graph.add((vb_entity, RDFS.isDefinedBy, def_literal))
             graph.add((vb_entity, RDFS.label, label_literal))
 
@@ -81,12 +84,12 @@ with open(dataset_path, "r") as csvfile:
             else:
                 graph.add((area, RDF.type, DBO.Area))
                 if gb_code + " " + gb_name == sd_name:
-                    subarea_val = Literal("Amsterdam", datatype=XSD['string'], lang='nl')
+                    subarea_val = Literal("Amsterdam", lang='nl')
                     subarea_uri = URIRef(to_iri(data + 'Amsterdam'))
                 else:
                     try:
                         literal = "Amsterdam " + sd_name.split()[1]
-                        subarea_val = Literal(literal, datatype=XSD['string'], lang='nl')
+                        subarea_val = Literal(literal, lang='nl')
                         subarea_uri = URIRef(to_iri(data + literal))
                     except IndexError:
                         continue

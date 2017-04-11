@@ -1,5 +1,6 @@
 import sys
 import os.path
+from restaurants import UnicodeWriter
 
 from data_preparation import (
     join_dataframes, csv_to_dataframe, get_most_recent_variable_instance)
@@ -46,8 +47,12 @@ combined_df = join_dataframes(
     df_data, df_metadata, 'variabele')[output_fields]
 
 combined_df = join_dataframes(combined_df, df_locations, 'gebiedcode15')
-print(combined_df.loc[120:,:])
+combined_df = combined_df.dropna()
+combined_df = combined_df.drop_duplicates(subset=['variabele', 'gebiedcode15'])
+combined_df = combined_df.reset_index(drop=True)
 
 print("[saving data to csv...]")
-combined_df.to_csv(file_path_output)
+# combined_df.to_csv(file_path_output)
+uc_writer = UnicodeWriter(f=file_path_output)
+uc_writer.writerows(combined_df.as_matrix( ))
 print("[saved!]")
