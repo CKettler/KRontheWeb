@@ -23,12 +23,11 @@ except IndexError:
 df_data = prep.csv_to_dataframe(
     file_path=file_path_data, key='data')
 df_data = prep.last_value_variable(df_data)
-
 df_metadata = prep.csv_to_dataframe(
     file_path=file_path_metadata, key='metadata')
 df_metadata_2 = prep.csv_to_dataframe(
     file_path=file_path_metadata_2, key='metadata2')
-df_metadata_2 = df_metadata_2.loc[df_metadata_2[['gebiedcode15', 'gebiednaam', 'sdnaam']]]
+df_metadata_2 = df_metadata_2.loc[:,['gebiedcode15', 'gebiednaam', 'sdnaam']]
 
 print("[files transformed to dataframes]")
 

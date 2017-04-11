@@ -24,13 +24,13 @@ def last_value_variable(df):
     for name, group in groups:
         group = group.sort_values(by='jaar', ascending=False)
         latest_year_index = group['jaar'].argmax()
-        if count%1000 == 0:
-            thousands += 1000
-            print('[processed %s groups...]' % thousands)
         if count == 0:
             df_new = group.loc[[latest_year_index],:]
         else:
             df_new = pd.concat([df_new, group.loc[[latest_year_index],:]])
+        if count%1000 == 0:
+            thousands += 1000
+            print('[processed %s groups...]' % thousands)
         count += 1
     return df_new
 
