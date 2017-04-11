@@ -18,7 +18,6 @@ except IndexError:
     usage()
     exit(1)
 
-
 df_data = get_most_recent_variable_instance(
     csv_to_dataframe(file_path_data, ';'),
     ['gebiedcode15', 'variabele'],

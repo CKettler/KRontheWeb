@@ -53,8 +53,8 @@ with open(dataset_path, "r") as csvfile:
         vb_entity = URIRef(to_iri(data + variable))
         if variable not in visited:
             visited.append(variable)
-            def_literal = Literal(row[DEFINITIE_IDX], datatype=XSD['string'])
-            label_literal = Literal(row[LABEL_IDX], datatype=XSD['string'])
+            def_literal = Literal(row[DEFINITIE_IDX], datatype=XSD['string'], lang='nl')
+            label_literal = Literal(row[LABEL_IDX], datatype=XSD['string'], lang='nl')
             graph.add((vb_entity, RDFS.isDefinedBy, def_literal))
             graph.add((vb_entity, RDFS.label, label_literal))
 
@@ -81,14 +81,17 @@ with open(dataset_path, "r") as csvfile:
             else:
                 graph.add((area, RDF.type, DBO.Area))
                 if gb_code + " " + gb_name == sd_name:
-                    subarea_val = Literal("Amsterdam", datatype=XSD['string'])
+                    subarea_val = Literal("Amsterdam", datatype=XSD['string'], lang='nl')
+                    subarea_uri = URIRef(to_iri(data + 'Amsterdam'))
                 else:
                     try:
                         literal = "Amsterdam " + sd_name.split()[1]
-                        subarea_val = Literal(literal, datatype=XSD['string'])
+                        subarea_val = Literal(literal, datatype=XSD['string'], lang='nl')
+                        subarea_uri = URIRef(to_iri(data + literal))
                     except IndexError:
                         continue
-                graph.add((area, DBO.isPartOf, subarea_val))
+                graph.add((area, DBO.isPartOf, subarea_uri))
+                graph.add((subarea_uri, RDFS.label, subarea_val))
 
         except ValueError:
             pass
