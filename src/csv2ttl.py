@@ -1,3 +1,4 @@
+import codecs
 import csv
 import sys
 
@@ -13,6 +14,38 @@ LABEL_IDX = 3
 DEFINITIE_IDX = 4
 GEBIEDNAAM_IDX = 5
 SDNAAM_IDX = 6
+
+
+class UTF8Recoder:
+    """
+    Iterator that reads an encoded stream and reencodes the input to UTF-8
+    """
+    def __init__(self, f, encoding):
+        self.reader = codecs.getreader(encoding)(f)
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        return self.reader.next().encode("utf-8")
+
+
+class UnicodeReader:
+    """
+    A CSV reader which will iterate over lines in the CSV file "f",
+    which is encoded in the given encoding.
+    """
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        f = UTF8Recoder(f, encoding)
+        self.reader = csv.reader(f, dialect=dialect, **kwds)
+
+    def next(self):
+        row = self.reader.next()
+        return [unicode(s, "utf-8") for s in row]
+
+    def __iter__(self):
+        return self
 
 
 data = 'http://data.krw.d2s.labs.vu.nl/group1/resource/'
@@ -38,7 +71,7 @@ graph = dataset.graph(graph_uri)
 
 visited = []
 with open(dataset_path, "r") as csvfile:
-    csv_contents = csv.reader(csvfile)
+    csv_contents = UnicodeReader(csvfile)
     header = csv_contents.next()
     # Let's iterate over the dictionary, and create some triples
     # Let's pretend we know exactly what the 'schema' of our CSV file is

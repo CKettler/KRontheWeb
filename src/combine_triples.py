@@ -19,7 +19,7 @@ except IndexError:
     exit(1)
 
 df_data = get_most_recent_variable_instance(
-    csv_to_dataframe(file_path_data, ';'),
+    csv_to_dataframe(file_path_data, ','),
     ['gebiedcode15', 'variabele'],
     'jaar')
 
@@ -35,6 +35,10 @@ output_fields = ['variabele', 'gebiedcode15', 'waarde', 'label', 'definitie']
 combined_df = join_dataframes(
     df_data, df_metadata, 'variabele')[output_fields]
 combined_df = join_dataframes(combined_df, df_locations, 'gebiedcode15')
+
+combined_df = combined_df.dropna()
+combined_df = combined_df.drop_duplicates(subset=['variabele', 'gebiedcode15'])
+combined_df = combined_df.reset_index(drop=True)
 
 print("[saving data to csv...]")
 combined_df.to_csv(file_path_output)
