@@ -70,6 +70,15 @@ def build_graph_for_areas(graph, areas_csv):
     GEBIEDNAAM_IDX = 5
     SDNAAM_IDX = 6
 
+    graph.add((dbr.Neighbourhood, rdfs.subClassOf, dbo.Area))
+    graph.add((dbr.City, rdfs.subClassOf, dbo.Area))
+    graph.add((data['City_part'], rdfs.subClassOf, dbo.Area))
+
+    graph.add((data['City_part'], rdf.type, rdfs.Class))
+    graph.add((data['City_part'], dbo.isPartOf, dbr.City))
+
+    graph.add((dbr.Neighbourhood, dbo.isPartOf, data['City_part']))
+
     visited = []
     with open(areas_csv, "r") as csvfile:
         csv_contents = UnicodeReader(csvfile)
@@ -110,20 +119,23 @@ def build_graph_for_areas(graph, areas_csv):
                 graph.add((area, vb_entity, value))
                 graph.add((area, data['areaCode'], Literal(
                     row[GEBIEDCODE_IDX], datatype=XSD['string'])))
+                graph.add((area, rdf.type, org.Site))
                 if gb_code == 'STAD':
                     graph.add((area, rdf.type, dbo.City))
-                    graph.add((area, rdf.type, org.Site))
                     graph.add((area, owl.sameAs, dbr.Amsterdam))
                 else:
-                    graph.add((area, rdf.type, dbo.Area))
                     if gb_code + " " + gb_name == sd_name:
                         subarea_val = Literal("Amsterdam", lang='nl')
                         subarea_uri = URIRef(to_iri(data + 'Amsterdam'))
+                        graph.add(
+                            (subarea_uri, rdf.type, data['City_part']))
                     else:
                         try:
                             literal = "Amsterdam " + sd_name.split()[1]
                             subarea_val = Literal(literal, lang='nl')
                             subarea_uri = URIRef(to_iri(data + literal))
+                            graph.add(
+                                (subarea_uri, rdf.type, dbr.Neighbourhood))
                         except IndexError:
                             continue
                     graph.add((area, dbo.isPartOf, subarea_uri))
