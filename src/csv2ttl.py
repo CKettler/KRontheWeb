@@ -176,8 +176,10 @@ def build_graph_for_restaurants(graph, restaurants_csv):
                     float(longitude), datatype=XSD['decimal'])))
                 graph.add((restaurant, geo.logn, Literal(
                     float(latitude), datatype=XSD['decimal'])))
+
             graph.add((restaurant, org.hasSite, area))
-            graph.add((area, data['locatedIn'], restaurant))
+            graph.add((restaurant, data['locatedIn'], area))
+
             graph.add((restaurant, review.minRating, Literal(
                 1, datatype=XSD['integer'])))
             graph.add((restaurant, review.maxRating, Literal(
