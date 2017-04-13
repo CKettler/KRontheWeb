@@ -190,7 +190,7 @@ def build_graph_for_restaurants(graph, restaurants_csv):
                 int(row[REVIEW_COUNT_IDX]), datatype=XSD['integer'])))
             graph.add((restaurant, data['hasPrice'], Literal(
                 row[PRICE_IDX], datatype=XSD['string'])))
-            graph.add((area, data['businessID'], Literal(
+            graph.add((restaurant, data['businessID'], Literal(
                 row[BUSINESS_ID_IDX], datatype=XSD['string'])))
 
     return graph
