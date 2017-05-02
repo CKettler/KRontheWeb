@@ -54,11 +54,12 @@ graph_uri = URIRef('http://data.krw.d2s.labs.vu.nl/group1/resource/graph')
 
 # We initialize a dataset, and bind our namespaces
 dataset = Dataset()
-dataset.bind('g01data', data)
+dataset.bind('g01vocab', data)
 dataset.bind('dbr', dbr)
 dataset.bind('dbo', dbo)
 dataset.bind('org', org)
 dataset.bind('geo', geo)
+
 
 
 def build_graph_for_areas(graph, areas_csv):
@@ -157,6 +158,9 @@ def build_graph_for_restaurants(graph, restaurants_csv):
     RATING_IDX = 7
     PRICE_IDX = 8
 
+    graph.add((dbo.Restaurant, rdfs.subClassOf, dbr.Business))
+    graph.add((dbr.Business, rdfs.subClassOf, org.Organization))
+
     with open(restaurants_csv, "r") as csvfile:
         csv_contents = UnicodeReader(csvfile)
         csv_contents.next()
@@ -180,9 +184,7 @@ def build_graph_for_restaurants(graph, restaurants_csv):
             graph.add((area, data['locationOf'], restaurant))
 
             graph.add((restaurant, rdf.type, rdfs.Class))
-            graph.add((restaurant, rdf.type, dbr.Business))
             graph.add((restaurant, rdf.type, dbo.Restaurant))
-            graph.add((restaurant, rdf.type, org.Organization))
             if longitude and latitude:
                 graph.add((restaurant, geo.lat, Literal(
                     float(longitude), datatype=XSD['decimal'])))
