@@ -1,0 +1,35 @@
+from rdflib import Graph
+import pprint
+import datetime
+
+start_time = datetime.datetime.now()
+
+g1 = Graph()
+g2 = Graph()
+
+g1.parse("C:\Users\cel_w\Documents\GitHub\category_labels_en.ttl", format="turtle")
+g2.parse("C:\Users\cel_w\Documents\GitHub\graph.ttl", format="turtle")
+
+loaded_time = datetime.datetime.now()
+past_time = loaded_time - start_time
+
+print('[Loading two ttl files into python takes: %s]' % past_time)
+
+len(g1) # prints 2
+
+own_namespace = 'http://data.krw.d2s.labs.vu.nl/group1/resource/'
+length_own_namespace = len(own_namespace)
+
+for triple1 in g1:
+    object1 = triple1[2].encode('utf-8')
+    for triple2 in g2:
+        object2 = triple2[2].encode('utf-8')
+        if object2.startswith(own_namespace):
+            object2 = object2[length_own_namespace:]
+        if object1 == object2:
+            pprint.pprint('Literal 1: ' + str(object1) + ' and Literal 2: ' + str(object2) + ' are the same')
+
+compare_time = datetime.datetime.now()
+past_time2 = compare_time - past_time
+
+print('[Comparing all literals takes: %s]' % past_time2)
