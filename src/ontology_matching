@@ -1,6 +1,8 @@
 from rdflib import Graph
 import pprint
 import datetime
+# for later if we want to use wordnet
+from nltk.corpus import wordnet as wn
 
 start_time = datetime.datetime.now()
 
@@ -8,14 +10,15 @@ g1 = Graph()
 g2 = Graph()
 
 g1.parse("C:\Users\cel_w\Documents\GitHub\category_labels_en.ttl", format="turtle")
-g2.parse("C:\Users\cel_w\Documents\GitHub\graph.ttl", format="turtle")
+g2.parse("C:\Users\cel_w\Documents\GitHub\weerdtspeet.ttl", format="turtle")
 
 loaded_time = datetime.datetime.now()
 past_time = loaded_time - start_time
 
 print('[Loading two ttl files into python takes: %s]' % past_time)
 
-len(g1) # prints 2
+print(len(g1)) # prints 2
+print(len(g2))
 
 own_namespace = 'http://data.krw.d2s.labs.vu.nl/group1/resource/'
 length_own_namespace = len(own_namespace)
@@ -28,6 +31,8 @@ for triple1 in g1:
             object2 = object2[length_own_namespace:]
         if object1 == object2:
             pprint.pprint('Literal 1: ' + str(object1) + ' and Literal 2: ' + str(object2) + ' are the same')
+
+            # for literals containing the same number, check the predicate and the subject and match these
 
 compare_time = datetime.datetime.now()
 past_time2 = compare_time - past_time
